@@ -24,20 +24,27 @@
 
   <body>
     <main class="container">
-      <h1>Blog</h1>
+      
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Blog</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="/crear_post/">Crear Post</a>
 
-      <h3>Posts</h3>
-      <a class="btn btn-info" href="/crear_post/">Crear Post</a>
-      <ul>
-        {% for post in posts %}
+      </nav>
+ 
+      {% for post in posts %}
+      <div class="card my-3">
+        <div class="card-header">
+          <h2>{{post.titulo}}</h2>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{post.contenido|truncatechars:50}}</p>
+          <p class="card-text"> {{post.created_at}} </p>
+          <a href="/ver_detalle/{{post.id}}" class="btn btn-primary">Ver detalle</a>
+        </div>
+      </div>
+      {% endfor%}
 
-        <li>
-          {{post.created_at}} <br />
-          {{post.titulo}} <br />
-          {{post.contenido}}
-        </li>
-        {% endfor%}
-      </ul>
+
     </main>
   </body>
 </html>

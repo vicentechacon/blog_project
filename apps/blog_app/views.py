@@ -30,4 +30,10 @@ def crear_post(request):
 
     return render (request, 'blog_app/crear_post.html', context)
 
-    
+def ver_detalle(request, id_post):
+    if request.method == "GET":
+        post = Post.objects.get(id=id_post)
+        context = {
+            'post': post 
+        }
+        return render(request,"blog_app/ver_detalle.html",context)

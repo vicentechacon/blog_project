@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Usuario, Post, Like, Comentario
+from .models import Post, Like, Comentario
+from apps.login_project_app.models import Usuario
 
 def index(request):
     context = {

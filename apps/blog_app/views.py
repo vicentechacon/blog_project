@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post, Like, Comentario
 from apps.login_project_app.models import Usuario
+from .utils import login_required
 
 def index(request):
     context = {
@@ -9,6 +10,7 @@ def index(request):
         
     return render(request, 'blog_app/index.html', context)
 
+@login_required
 def crear_post(request):
     if request.method == "POST":
         errors = Post.objects.validacion_basica(request.POST)
@@ -31,6 +33,7 @@ def crear_post(request):
 
     return render (request, 'blog_app/crear_post.html', context)
 
+@login_required
 def ver_detalle(request, id_post):
     if request.method == "GET":
         post = Post.objects.get(id=id_post)

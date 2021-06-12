@@ -39,10 +39,3 @@ class Comentario(AbstractModel):
 class Like(AbstractModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     usuario = models.ForeignKey('login_project_app.Usuario', on_delete=models.CASCADE, related_name='likes')
-
-
-
-
-
-
-# Create your models here.

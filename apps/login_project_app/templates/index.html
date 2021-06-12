@@ -22,7 +22,7 @@
         <div class="formularios">
             <div class="registration">
                 <h1>Registration</h1>
-                <form action="/nuevo" method='POST'>
+                <form action="/auth/nuevo" method='POST'>
                     {% csrf_token %}
                     <div class="form-group w-75">
                         <label>First Name:</label>
@@ -54,7 +54,7 @@
             <div class="login">
                 <h1>Log In</h1>
 
-                <form action="/login" method='POST'>
+                <form action="/auth/login" method='POST'>
                     {% csrf_token %}
                     <div class="form-group w-75">
                         <label>Email:</label>

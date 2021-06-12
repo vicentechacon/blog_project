@@ -12,14 +12,14 @@ def nuevo(request):
     if len(errores) > 0:
         for key, value in errores.items():
             messages.error(request, value)
-        return redirect('/')
+        return redirect('/auth')
     else:
         hash1 = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode()
         newusuario = Usuario.objects.create(first_name=request.POST['first_name'],last_name= request.POST['last_name'], email= request.POST['email'], password= hash1)
 
         request.session['id']= newusuario.id
 
-    return redirect('/success')
+    return redirect('/auth/success')
 
 def success(request):
     if 'id' not in request.session:
@@ -35,15 +35,15 @@ def login(request):
     if len(login_validator) > 0:
         for key, value in login_validator.items():
             messages.error(request, value)
-        return redirect('/')
+        return redirect('/auth')
     else:
         usuario = Usuario.objects.filter(email = request.POST['email'])[0]
         request.session['id'] = usuario.id
-        return redirect('/success')
+        return redirect('/')
 
 def logout(request):
     request.session.clear()
-    return redirect('/')
+    return redirect('/auth')
 
 # def getUsuario(idUsuario = None, email= None):
 # try:   

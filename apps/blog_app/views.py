@@ -1,7 +1,9 @@
+from django.http.request import RAISE_ERROR
 from django.shortcuts import render, redirect
 from .models import Post, Like, Comentario
 from apps.login_project_app.models import Usuario
 from .utils import login_required
+from django.core.exceptions import PermissionDenied
 
 def index(request):
     context = {
@@ -24,7 +26,7 @@ def crear_post(request):
         titulo = request.POST["titulo"]
         contenido = request.POST["contenido"]
         
-        nueva_entrada = Post(titulo = titulo, contenido = contenido)
+        nueva_entrada = Post(titulo = titulo, contenido = contenido, created_by_id=request.session['id'])
         nueva_entrada.save()
 
         return redirect ('/')
@@ -41,3 +43,44 @@ def ver_detalle(request, id_post):
             'post': post 
         }
         return render(request,"blog_app/ver_detalle.html",context)
+
+@login_required
+def editar(request, id_post):
+    post = Post.objects.get(id=id_post)
+    if post.created_by_id != request.session['id']:
+        raise PermissionDenied()
+
+    if request.method == 'GET':
+        context = {
+            'post' : post
+        }
+        return render(request, 'blog_app/editar.html', context)
+    if request.method == "POST":
+        errors = Post.objects.validacion_basica(request.POST)
+        print(errors)
+        if len(errors) > 0:  #esto significa que hay un error
+            context = {
+                "errors" : errors,
+                'post': post
+            }
+            return render(request, 'blog_app/editar.html',context)
+
+        post.titulo = request.POST["titulo"]
+        post.contenido = request.POST["contenido"]
+        
+        post.save()
+
+        return redirect ('/')
+
+@login_required
+def eliminar(request, id_post):
+    post = Post.objects.get(id=id_post)
+    if post.created_by_id != request.session['id']:
+        raise PermissionDenied()
+    post.delete()
+    return redirect('/')
+
+    
+
+    
+    

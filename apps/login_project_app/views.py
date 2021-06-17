@@ -19,7 +19,7 @@ def nuevo(request):
 
         request.session['id']= newusuario.id
 
-    return redirect('/auth/success')
+    return redirect('/')
 
 def success(request):
     if 'id' not in request.session:
@@ -35,7 +35,7 @@ def login(request):
     if len(login_validator) > 0:
         for key, value in login_validator.items():
             messages.error(request, value)
-        return redirect('/auth')
+        return redirect('/auth/')
     else:
         usuario = Usuario.objects.filter(email = request.POST['email'])[0]
         request.session['id'] = usuario.id

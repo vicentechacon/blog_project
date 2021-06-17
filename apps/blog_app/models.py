@@ -24,6 +24,7 @@ class PostManager(models.Manager):
 
 class Post(AbstractModel):
     titulo = models.CharField(max_length=255)
+    created_by = models.ForeignKey('login_project_app.Usuario', related_name='posts', on_delete=models.CASCADE)
     contenido = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -33,6 +34,7 @@ class Post(AbstractModel):
 class Comentario(AbstractModel):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comentarios')
     contenido = models.TextField()
+    created_by = models.ForeignKey('login_project_app.Usuario', related_name='comentarios', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

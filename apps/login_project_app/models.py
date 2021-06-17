@@ -34,10 +34,14 @@ class UsuarioManager(models.Manager):
         login_errores = {}
         if len(postData['email']) < 1:
             login_errores['email'] = 'Email es necesario'
+        elif not EMAIL_REGEX.match(postData['email']):
+            login_errores['email']= "Email is not valid"
+
         else:
             email_existente = Usuario.objects.filter(email=postData['email'])
             if len(email_existente) == 0:
                 login_errores['emailNoEncontrado'] = 'Este correo no está registrado'
+                return login_errores
             else:
                 usuario = email_existente[0]
             if not bcrypt.checkpw(postData['password'].encode(), usuario.password.encode()):

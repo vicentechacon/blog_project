@@ -37,6 +37,14 @@
         <p class="card-text">{{post.contenido|truncatechars:50}}</p>
         <p class="card-text"> {{post.created_at}} </p>
         <a href="/ver_detalle/{{post.id}}" class="btn btn-primary">Ver detalle</a>
+        {% if usuario %}
+          {% if usuario in post.users_who_liked.all %}
+            <a href="/unlike/{{post.id}}" class="btn btn-info">Unlike</a>
+            {% else %}
+            <a href="/like/{{post.id}}" class="btn btn-info">Like</a>
+          {% endif %} 
+        {% endif %}
+        <p>{{post.likes.count}}</p>
       </div>
     </div>
     {% endfor%}

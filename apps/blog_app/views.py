@@ -7,9 +7,12 @@ from django.core.exceptions import PermissionDenied
 
 def index(request):
     context = {
-        'posts' : Post.objects.all().order_by('created_at')
+        'posts' : Post.objects.all().order_by('created_at'),
         }
-        
+    if "id" in request.session:
+        usuario = Usuario.objects.get(id = request.session["id"])
+        context["usuario"] = usuario
+
     return render(request, 'blog_app/index.html', context)
 
 @login_required
@@ -79,6 +82,24 @@ def eliminar(request, id_post):
         raise PermissionDenied()
     post.delete()
     return redirect('/')
+
+@login_required
+def like(request, id_post):
+    user = Usuario.objects.get(id = request.session["id"])
+    post = Post.objects.get(id = id_post)
+    like = Like.objects.get_or_create(post = post,usuario = user)
+
+    return redirect("/")
+
+@login_required
+def unlike(request, id_post):
+    user = Usuario.objects.get(id = request.session["id"])
+    post = Post.objects.get(id = id_post)
+    like = Like.objects.get(post = post,usuario = user)
+    like.delete()
+
+    return redirect("/")
+
 
     
 

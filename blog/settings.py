@@ -26,8 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = []
-if not DEBUG:
+if DEBUG == 'False':
     ALLOWED_HOSTS = ['3.17.36.104']
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,"static/")
 # Application definition

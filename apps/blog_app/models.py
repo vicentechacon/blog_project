@@ -29,6 +29,7 @@ class Post(AbstractModel):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = PostManager()
+    users_who_liked = models.ManyToManyField('login_project_app.Usuario', through= "Like")
 
 
 class Comentario(AbstractModel):
@@ -41,3 +42,5 @@ class Comentario(AbstractModel):
 class Like(AbstractModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     usuario = models.ForeignKey('login_project_app.Usuario', on_delete=models.CASCADE, related_name='likes')
+
+    

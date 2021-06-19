@@ -31,7 +31,8 @@
     {% for post in posts %}
     <div class="card my-3">
       <div class="card-header">
-        <h2>{{post.titulo}}</a></h2>
+        <h2>{{post.titulo}}</h2>
+        <h6>{{post.likes.count}} {% if post.likes.count == 1 %} like{% else %} likes {% endif %} </h6>
       </div>
       <div class="card-body">
         <p class="card-text">{{post.contenido|truncatechars:50}}</p>
@@ -44,7 +45,6 @@
             <a href="/like/{{post.id}}" class="btn btn-info">Like</a>
           {% endif %} 
         {% endif %}
-        <p>{{post.likes.count}}</p>
       </div>
     </div>
     {% endfor%}
